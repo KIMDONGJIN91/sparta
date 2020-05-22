@@ -14,6 +14,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 
     <title>쇼핑몰 페이지</title>
     <style>
@@ -65,7 +67,16 @@
         
         .itemPrice {
             font-size: 20px;
+        }
+        
+        .exchangeRate {
+            font-size: 15px;
+            color: blue;
             margin-bottom: 10px;
+        }
+        
+        .exchange {
+            width: 10px;
         }
         
         .remainingNoOfItem {
@@ -86,11 +97,79 @@
             text-align: center;
             margin-bottom: 30px;
         }
+        
+        table,
+        th,
+        td {
+            border: 1px solid;
+        }
+        
+        table {
+            width: 100%;
+            padding: 5px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .th1 {
+            width: 15%;
+        }
+        
+        .th2 {
+            width: 15%;
+        }
+        
+        .th3 {
+            width: 40%;
+        }
+        
+        .th4 {
+            width: 30%;
+        }
     </style>
     <script>
         function order() {
-            alert('주문이 완료되었습니다');
+            let name = $('#name').val()
+            let quantity = $('#quantity option:selected').val()
+            let address = $('#address').val()
+            let contact = $('#contact').val()
+
+            let temp_html = `<tr>
+                            <td>${name}</td>
+                            <td>${quantity}</td>
+                            <td>${address}</td>
+                            <td>${contact}</td>
+                        </tr>`
+
+            if (name == '') {
+                alert('주문자명을 입력하세요!')
+            } else if (quantity == '0') {
+                alert('수량을 선택하세요!')
+            } else if (address == '') {
+                alert('주소를 입력하세요!')
+            } else if (contact == '') {
+                alert('연락처를 입력하세요!')
+            } else {
+                alert('주문완료')
+            }
+            $('#names-q1').append(temp_html);
+
         }
+
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function(response) {
+                    let rates = response[1]["rate"]
+                    $("#exchange").text(rates);
+                }
+            })
+
+
+            // 여기에 환율 API Ajax 요청을 하면 되겠죠?
+        });
     </script>
 </head>
 
@@ -155,48 +234,70 @@
             스타벅스 네스프레소 캡슐
         </div>
         <div class="itemPrice">
-            가격 : 35,000원</span>
+            가격 : 35,000원
         </div>
-        <div class="remainingNoOfItem">
+        <div class="exchangeRate">
+            달러-원 환율 :
+            <span id="exchange"></span>
+        </div>
+        <div class=" remainingNoOfItem">
             남은수량 : <span>4개</span>
         </div>
         <div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">주문자명</span>
+            <div class="input-group mb-3 ">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text " id="basic-addon1 ">주문자명</span>
                 </div>
-                <input type="text" class="form-control" placeholder="주문자명을 입력하세요" aria-label="Username" aria-describedby="basic-addon1">
+                <input id="name " type="text " class="form-control " placeholder="주문자명을 입력하세요 " aria-label="Username " aria-describedby="basic-addon1 ">
             </div>
         </div>
-        <div class="orderDetail">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">수량</label>
+        <div class="orderDetail ">
+            <div class="input-group mb-3 ">
+                <div class="input-group-prepend ">
+                    <label class="input-group-text " for="inputGroupSelect01 ">수량</label>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                <option selected>수량을 선택하세요</option>
-                <option value="1">1개</option>
-                <option value="2">2개</option>
-                <option value="3">3개</option>
-                <option value="3">4개</option>
+                <select id="quantity " class="custom-select " id="inputGroupSelect01 ">
+                <option value="0 ">수량을 선택하세요</option>
+                <option value="1 ">1개</option>
+                <option value="2 ">2개</option>
+                <option value="3 ">3개</option>
+                <option value="ㅋ ">4개</option>
                 </select>
             </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">주소</span>
+            <div class="input-group mb-3 ">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text " id="basic-addon1 ">주소</span>
                 </div>
-                <input type="text" class="form-control" placeholder="주소를 입력하세요" aria-label="Useradress" aria-describedby="basic-addon1">
+                <input id="address " type="text " class="form-control " placeholder="주소를 입력하세요 " aria-label="Useradress " aria-describedby="basic-addon1 ">
             </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">연락처</span>
+            <div class="input-group mb-3 ">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text " id="basic-addon1 ">연락처</span>
                 </div>
-                <input type="text" class="form-control" placeholder="연락처를 입력하세요" aria-label="Usercontact" aria-describedby="basic-addon1">
+                <input id="contact " type="text " class="form-control " placeholder="연락처를 입력하세요 " aria-label="Usercontact " aria-describedby="basic-addon1 ">
             </div>
         </div>
-        <div class="orderButton">
-            <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
+        <div class="orderButton ">
+            <button type="button " class="btn btn-primary btn-lg " onclick="order() ">주문하기</button>
         </div>
+        <table>
+            <thead>
+                <tr>
+                    <td class="th1 ">주문자명</td>
+                    <td class="th2 ">수량</td>
+                    <td class="th3 ">주소</td>
+                    <td class="th4 ">연락처</td>
+                </tr>
+            </thead>
+            <tbody id="names-q1 ">
+                <tr>
+                    <td>김동진</td>
+                    <td>2</td>
+                    <td>서울시 관악구 행운5길 32-1, 201호</td>
+                    <td>010-5643-7823</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 

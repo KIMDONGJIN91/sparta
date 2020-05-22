@@ -128,6 +128,21 @@
         }
     </style>
     <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function(response) {
+                    let rates = response[1]["rate"]
+                    $("#exchange").text(rates);
+                }
+            })
+
+
+            // 여기에 환율 API Ajax 요청을 하면 되겠죠?
+        });
+
         function order() {
             let name = $('#name').val()
             let quantity = $('#quantity option:selected').val()
@@ -151,25 +166,11 @@
                 alert('연락처를 입력하세요!')
             } else {
                 alert('주문완료')
+                $('#names-q1').append(temp_html);
+
             }
-            $('#names-q1').append(temp_html);
 
         }
-
-        $(document).ready(function() {
-            $.ajax({
-                type: "GET",
-                url: "https://api.manana.kr/exchange/rate.json",
-                data: {},
-                success: function(response) {
-                    let rates = response[1]["rate"]
-                    $("#exchange").text(rates);
-                }
-            })
-
-
-            // 여기에 환율 API Ajax 요청을 하면 되겠죠?
-        });
     </script>
 </head>
 
@@ -244,52 +245,52 @@
             남은수량 : <span>4개</span>
         </div>
         <div>
-            <div class="input-group mb-3 ">
-                <div class="input-group-prepend ">
-                    <span class="input-group-text " id="basic-addon1 ">주문자명</span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">주문자명</span>
                 </div>
-                <input id="name " type="text " class="form-control " placeholder="주문자명을 입력하세요 " aria-label="Username " aria-describedby="basic-addon1 ">
+                <input id="name" type="text" class="form-control" placeholder="주문자명을 입력하세요" aria-label="Username" aria-describedby="basic-addon1">
             </div>
         </div>
-        <div class="orderDetail ">
-            <div class="input-group mb-3 ">
-                <div class="input-group-prepend ">
-                    <label class="input-group-text " for="inputGroupSelect01 ">수량</label>
+        <div class="orderDetail">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">수량</label>
                 </div>
-                <select id="quantity " class="custom-select " id="inputGroupSelect01 ">
-                <option value="0 ">수량을 선택하세요</option>
-                <option value="1 ">1개</option>
-                <option value="2 ">2개</option>
-                <option value="3 ">3개</option>
-                <option value="ㅋ ">4개</option>
+                <select id="quantity" class="custom-select" id="inputGroupSelect01">
+                <option value="0">수량을 선택하세요</option>
+                <option value="1">1개</option>
+                <option value="2">2개</option>
+                <option value="3">3개</option>
+                <option value="ㅋ">4개</option>
                 </select>
             </div>
-            <div class="input-group mb-3 ">
-                <div class="input-group-prepend ">
-                    <span class="input-group-text " id="basic-addon1 ">주소</span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">주소</span>
                 </div>
-                <input id="address " type="text " class="form-control " placeholder="주소를 입력하세요 " aria-label="Useradress " aria-describedby="basic-addon1 ">
+                <input id="address" type="text" class="form-control" placeholder="주소를 입력하세요" aria-label="Useradress" aria-describedby="basic-addon1">
             </div>
-            <div class="input-group mb-3 ">
-                <div class="input-group-prepend ">
-                    <span class="input-group-text " id="basic-addon1 ">연락처</span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">연락처</span>
                 </div>
-                <input id="contact " type="text " class="form-control " placeholder="연락처를 입력하세요 " aria-label="Usercontact " aria-describedby="basic-addon1 ">
+                <input id="contact" type="text" class="form-control" placeholder="연락처를 입력하세요" aria-label="Usercontact" aria-describedby="basic-addon1">
             </div>
         </div>
-        <div class="orderButton ">
-            <button type="button " class="btn btn-primary btn-lg " onclick="order() ">주문하기</button>
+        <div class="orderButton">
+            <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
         </div>
         <table>
             <thead>
                 <tr>
-                    <td class="th1 ">주문자명</td>
-                    <td class="th2 ">수량</td>
-                    <td class="th3 ">주소</td>
-                    <td class="th4 ">연락처</td>
+                    <td class="th1">주문자명</td>
+                    <td class="th2">수량</td>
+                    <td class="th3">주소</td>
+                    <td class="th4">연락처</td>
                 </tr>
             </thead>
-            <tbody id="names-q1 ">
+            <tbody id="names-q1">
                 <tr>
                     <td>김동진</td>
                     <td>2</td>
